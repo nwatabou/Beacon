@@ -14,6 +14,9 @@
 		630E66CB1BD4D35800481B12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630E66C91BD4D35800481B12 /* LaunchScreen.storyboard */; };
 		630E66D61BD4D35900481B12 /* BeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E66D51BD4D35900481B12 /* BeaconTests.swift */; };
 		630E66E11BD4D35900481B12 /* BeaconUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E66E01BD4D35900481B12 /* BeaconUITests.swift */; };
+		63C478191BDDF5FD00421395 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C478181BDDF5FD00421395 /* CoreLocation.framework */; };
+		63C4781B1BDDF60E00421395 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4781A1BDDF60E00421395 /* CoreBluetooth.framework */; };
+		63C4781D1BDDF65100421395 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4781C1BDDF65100421395 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		630E66DC1BD4D35900481B12 /* BeaconUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		630E66E01BD4D35900481B12 /* BeaconUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconUITests.swift; sourceTree = "<group>"; };
 		630E66E21BD4D35900481B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63C478181BDDF5FD00421395 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63C4781A1BDDF60E00421395 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		63C4781C1BDDF65100421395 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63C4781D1BDDF65100421395 /* UIKit.framework in Frameworks */,
+				63C4781B1BDDF60E00421395 /* CoreBluetooth.framework in Frameworks */,
+				63C478191BDDF5FD00421395 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +86,9 @@
 		630E66B41BD4D35800481B12 = {
 			isa = PBXGroup;
 			children = (
+				63C4781C1BDDF65100421395 /* UIKit.framework */,
+				63C4781A1BDDF60E00421395 /* CoreBluetooth.framework */,
+				63C478181BDDF5FD00421395 /* CoreLocation.framework */,
 				630E66BF1BD4D35800481B12 /* Beacon */,
 				630E66D41BD4D35900481B12 /* BeaconTests */,
 				630E66DF1BD4D35900481B12 /* BeaconUITests */,
@@ -490,6 +502,7 @@
 				630E66E71BD4D35900481B12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		630E66E81BD4D35900481B12 /* Build configuration list for PBXNativeTarget "BeaconTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +511,7 @@
 				630E66EA1BD4D35900481B12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		630E66EB1BD4D35900481B12 /* Build configuration list for PBXNativeTarget "BeaconUITests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +520,7 @@
 				630E66ED1BD4D35900481B12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

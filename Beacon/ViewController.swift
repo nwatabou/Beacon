@@ -19,6 +19,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet var accuracy: UILabel!
     @IBOutlet var rssi: UILabel!
     @IBOutlet var distance: UILabel!
+    @IBOutlet weak var quiz: UILabel!
     
     var trackLocationManager : CLLocationManager!
     var beaconRegion : CLBeaconRegion!
@@ -139,6 +140,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    
     //観測失敗
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
         
@@ -156,10 +158,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //領域内にいるので測定をする
     func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         //println(beacons)
-        
-        if(beacons.count == 0) { return }
+//        
+//        if(beacons.count == 0) { return }
         //複数あった場合は一番先頭のものを処理する
-        let beacon = beacons[0] 
+        let beacon = beacons[0]
         
         /*
         beaconから取得できるデータ
@@ -188,6 +190,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.accuracy.text = "\(beacon.accuracy)"
         self.rssi.text     = "\(beacon.rssi)"
         
+        if(beacon.minor == 2 && beacon.proximity == CLProximity.Immediate){
+            self.quiz.text = "百獣の王と言えば?"
+        }
+        if(beacon.minor == 4 && beacon.proximity == CLProximity.Immediate){
+            self.quiz.text = "正解！"
+        }
     }
     
     func reset(){
@@ -198,6 +206,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.accuracy.text = "none"
         self.rssi.text     = "none"
         self.distance.text = "none"
+        self.quiz.text     = "none"
     }
     
     //ローカル通知
