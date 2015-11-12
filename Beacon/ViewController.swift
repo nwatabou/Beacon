@@ -9,20 +9,40 @@
 import UIKit
 import CoreLocation
 
+
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //ストーリーボードで設定
     @IBOutlet var status: UILabel!
-    @IBOutlet var uuid: UILabel!
-    @IBOutlet var major: UILabel!
     @IBOutlet var minor: UILabel!
-    @IBOutlet var accuracy: UILabel!
-    @IBOutlet var rssi: UILabel!
     @IBOutlet var distance: UILabel!
     @IBOutlet weak var quiz: UILabel!
+    @IBOutlet weak var message: UILabel!
+
+    @IBOutlet weak var nextButton: UIButton!
+    @IBAction func nextButton(sender: AnyObject) {
+        flg = false
+        ansFlg = false
+        self.answerButton.hidden = true
+    }
+    
+    @IBOutlet weak var answerButton: UIButton!
+    @IBAction func answerButton(sender: AnyObject) {
+        ansFlg = true
+    }
+    
+    
     
     var trackLocationManager : CLLocationManager!
     var beaconRegion : CLBeaconRegion!
+    
+    //問題を受け取っているか否かのflg
+    var flg = false
+    //答えるか否かのflg
+    var ansFlg = false
+    //問題番号の変数
+    var queNo = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +68,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //Beacon領域を作成
         self.beaconRegion = CLBeaconRegion(proximityUUID: uuid!, identifier: "net.noumenon-th")
         
+        //始めはボタンを隠しておく
+        self.nextButton.hidden = true
+        self.answerButton.hidden = true
+
     }
     
     //位置認証のステータスが変更された時に呼ばれる
@@ -111,9 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             break;
             
         default:
-            
-            break;
-            
+            break
         }
     }
     
@@ -160,7 +182,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //println(beacons)
 //        
 //        if(beacons.count == 0) { return }
-        //複数あった場合は一番先頭のものを処理する
+        //↑複数あった場合は一番先頭のものを処理する
+        
+        //複数検出する場合で、一番近いものに接続させる場合
         let beacon = beacons[0]
         
         /*
@@ -172,6 +196,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         accuracy        :   精度
         rssi            :   電波強度
         */
+        
+        
         if (beacon.proximity == CLProximity.Unknown) {
             self.distance.text = "Unknown Proximity"
             reset()
@@ -184,29 +210,71 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.distance.text = "Far"
         }
         self.status.text   = "領域内です"
-        self.uuid.text     = beacon.proximityUUID.UUIDString
-        self.major.text    = "\(beacon.major)"
-        self.minor.text    = "\(beacon.minor)"
-        self.accuracy.text = "\(beacon.accuracy)"
-        self.rssi.text     = "\(beacon.rssi)"
         
-        if(beacon.minor == 2 && beacon.proximity == CLProximity.Immediate){
-            self.quiz.text = "百獣の王と言えば?"
+        self.minor.text    = "\(beacon.minor)"
+        
+        //flgがfalseの時はquestion出題
+        if(flg == false){
+            self.quiz.text = " - "
+            self.message.text = " - "
+            
+            if(beacon.proximity == CLProximity.Immediate){
+                
+                //beaconのminor値によって条件分岐
+                switch beacon.minor{
+                case 2:
+                    self.quiz.text = "百獣の王と言えば?"
+                    flg = true
+                    queNo = 2
+                    break
+                    
+                case 4:
+                    self.quiz.text = "鼻の長い動物と言えば?"
+                    flg = true
+                    queNo = 4
+                    break
+                    
+                case 5:
+                    self.quiz.text = "首の長い動物と言えば?"
+                    flg = true
+                    queNo = 5
+                    break
+                    
+                default:
+                    break
+                }
+            }
         }
-        if(beacon.minor == 4 && beacon.proximity == CLProximity.Immediate){
-            self.quiz.text = "正解！"
+        
+        //flgがtrueの時は正解、不正解処理
+        if(flg){
+            //出題番号（queNo）と正解のminor番号との関係は、queNo + 1
+            if(beacon.proximity == CLProximity.Immediate && beacon.minor != queNo){
+                self.answerButton.hidden = false
+                if(ansFlg){
+                    if(beacon.minor == queNo + 1){
+                        self.message.text = "正解！"
+                        self.nextButton.hidden = false
+            
+                        //出題問題番号（queNo）がminor番号の最後尾（ここで言う 5）の正解は、minor番号の先頭（ここで言う 2）
+                    }else if(beacon.minor == 2 && queNo == 5){
+                        self.message.text = "正解！"
+                        self.nextButton.hidden = false
+                    }else{
+                        self.message.text = "残念！不正解！"
+                        ansFlg = false
+                    }
+                }
+            }
         }
     }
     
     func reset(){
         self.status.text   = "none"
-        self.uuid.text     = "none"
-        self.major.text    = "none"
         self.minor.text    = "none"
-        self.accuracy.text = "none"
-        self.rssi.text     = "none"
         self.distance.text = "none"
         self.quiz.text     = "none"
+        self.message.text  = "none"
     }
     
     //ローカル通知
@@ -223,3 +291,5 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
 }
+
+
